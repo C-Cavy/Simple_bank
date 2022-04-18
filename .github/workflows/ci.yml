@@ -8,7 +8,28 @@ on:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
+
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:14
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: 123456
+          POSTGRES_USER: root
+          POSTGRES_DB: simple_bank
+        # Set health checks to wait until postgres has started
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -16,6 +37,12 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18
+
+      - name: Install golang migrate
+        run: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz
+
+      - name: Run migrate
+        run: make migrate_up
 
       - name: Test
         run: go test -v ./...
