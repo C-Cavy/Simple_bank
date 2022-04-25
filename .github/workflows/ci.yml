@@ -46,5 +46,8 @@ jobs:
       - name: Run migrate
         run: make migrate_up
 
+      - name: tidy
+        run: go mod tidy
+
       - name: Test
         run: go test -v ./...
