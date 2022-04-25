@@ -19,6 +19,16 @@ dropdb:
 db = postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable
 migrate = migrate -path db/migration -database $(db)
 migrate_up:
-	$(migrate) up
+	$(migrate) up 1
 migrate_down:
-	$(migrate) down
+	$(migrate) down 1
+
+
+# go
+server:
+	go run main.go
+test:
+	go test -v ./...
+
+mock:
+	mockgen -package mockdb -destination db/mock/store.go simple_bank/db/sqlc Store
