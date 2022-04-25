@@ -22,3 +22,13 @@ migrate_up:
 	$(migrate) up
 migrate_down:
 	$(migrate) down
+
+
+# go
+server:
+	go run main.go
+test:
+	go test -v ./...
+
+mock:
+	mockgen -package mockdb -destination db/mock/store.go simple_bank/db/sqlc Store

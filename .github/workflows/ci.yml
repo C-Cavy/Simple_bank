@@ -36,7 +36,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.17
 
       - name: Install golang migrate
         run: |
@@ -45,6 +45,9 @@ jobs:
 
       - name: Run migrate
         run: make migrate_up
+
+      - name: tidy
+        run: go mod tidy
 
       - name: Test
         run: go test -v ./...
