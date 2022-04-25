@@ -19,9 +19,9 @@ dropdb:
 db = postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable
 migrate = migrate -path db/migration -database $(db)
 migrate_up:
-	$(migrate) up 1
+	$(migrate) up
 migrate_down:
-	$(migrate) down 1
+	$(migrate) down
 
 
 # go
